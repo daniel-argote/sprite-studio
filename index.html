@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sprite Studio v1.2</title>
+    <!-- Built with the assistance of Google Gemini -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #0f172a; color: #f1f5f9; font-family: ui-sans-serif, system-ui; }
@@ -17,7 +18,7 @@
             background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         }
         canvas { cursor: crosshair; image-rendering: pixelated; }
-        input[type=range] { accent-color: #10b981; }
+        input[type=range], input[type=checkbox] { accent-color: #10b981; }
     </style>
 </head>
 <body class="h-screen flex flex-col overflow-hidden">
@@ -74,6 +75,10 @@
             </section>
 
             <section class="pt-6 border-t border-slate-800 space-y-3">
+                <div class="flex items-center gap-2">
+                    <input type="checkbox" id="askFileName" class="w-4 h-4 cursor-pointer">
+                    <label for="askFileName" class="text-sm text-slate-400 cursor-pointer select-none">Ask for filename</label>
+                </div>
                 <div class="flex gap-2">
                     <button id="resetBtn" class="px-4 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-red-400 rounded-xl transition-colors" title="Discard & New Image">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
@@ -126,6 +131,7 @@
         const downloadBtn = document.getElementById('downloadBtn');
         const downloadSvgBtn = document.getElementById('downloadSvgBtn');
         const resetBtn = document.getElementById('resetBtn');
+        const askFileName = document.getElementById('askFileName');
         const statusText = document.getElementById('status-text');
 
         let originalImage = null;
@@ -236,14 +242,31 @@
         });
 
         downloadBtn.addEventListener('click', () => {
+            let fileName = 'sprite_asset.png';
+            if (askFileName.checked) {
+                const input = prompt('Enter filename:', 'sprite_asset');
+                if (input === null) return;
+                fileName = (input.trim() || 'sprite_asset');
+                if (!fileName.toLowerCase().endsWith('.png')) fileName += '.png';
+            }
+
             const link = document.createElement('a');
-            link.download = 'sprite_asset.png';
+            link.download = fileName;
             link.href = canvas.toDataURL('image/png');
             link.click();
         });
 
         downloadSvgBtn.addEventListener('click', () => {
             if (!originalImage) return;
+
+            let fileName = 'sprite_asset.svg';
+            if (askFileName.checked) {
+                const input = prompt('Enter filename:', 'sprite_asset');
+                if (input === null) return;
+                fileName = (input.trim() || 'sprite_asset');
+                if (!fileName.toLowerCase().endsWith('.svg')) fileName += '.svg';
+            }
+
             const w = canvas.width;
             const h = canvas.height;
             const data = ctx.getImageData(0, 0, w, h).data;
@@ -284,7 +307,7 @@
             const blob = new Blob([svg], {type: 'image/svg+xml'});
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
-            link.download = 'sprite_asset.svg';
+            link.download = fileName;
             link.href = url;
             link.click();
             URL.revokeObjectURL(url);

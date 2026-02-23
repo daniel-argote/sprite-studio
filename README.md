@@ -13,11 +13,11 @@ A specialized tool for game developers to quickly clean up sprite assets. This p
 ## Live Demo
 
 Access the tool directly via GitHub Pages:  
-**[Launch Sprite Studio](https://<your-username>.github.io/<repo-name>/sprite_studio.html)**
+**[Launch Sprite Studio](https://daniel-argote.github.io/sprite-studio/)**
 
 ## Project Structure
 
-- `sprite_studio.html`: The core application containing the UI and the Canvas-based image processing logic.
+- `index.html`: The core application containing the UI and the Canvas-based image processing logic.
 - `LICENSE`: MIT License information.
 
 ## How to Use
@@ -34,8 +34,12 @@ This app is 100% static and is designed to be hosted for free on GitHub Pages:
 1. Push this code to a GitHub repository.
 2. Go to **Settings > Pages**.
 3. Select the `main` branch and `/ (root)` folder.
-4. Your Sprite Studio will be live at `https://<your-username>.github.io/<repo-name>/sprite_studio.html`.
+4. Your Sprite Studio will be live at `https://<your-username>.github.io/<repo-name>/`.
 
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+Built with the assistance of Google Gemini.
