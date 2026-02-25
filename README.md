@@ -1,12 +1,12 @@
 # Alpha Amnesia v2.0
 
-A specialized tool for game developers to quickly clean up sprite assets. This project provides a high-performance, client-side HTML5 Canvas interface for removing backgrounds and smoothing edges directly in the browser.
+A versatile tool for quickly removing backgrounds and cleaning up images. This project provides a high-performance, client-side HTML5 Canvas interface for removing backgrounds and smoothing edges directly in the browser.
 
 ## Features
 
-- **Color Sampling:** Click anywhere on the sprite to instantly select the background color you want to remove.
+- **Color Sampling:** Click anywhere on the image to instantly select the background color you want to remove.
 - **Real-time Processing:** Adjust tolerance and smoothing on the fly with immediate visual feedback.
-- **Edge Smoothing:** Uses alpha-falloff logic to prevent "jaggies" on processed sprites.
+- **Edge Smoothing:** Uses alpha-falloff logic to prevent "jaggies" on processed images.
 - **Pixel-Perfect Quality:** Zero loss in image fidelity. The tool preserves the original pixel data for non-transparent areas.
 - **Zero Dependencies:** Runs entirely in the browser—no backend required.
 
@@ -25,7 +25,7 @@ Access the tool directly via GitHub Pages:
 1. **Load:** Drag and drop an image file (PNG, JPG) into the browser window.
 2. **Sample:** Click on the background color in the preview area to target it for removal.
 3. **Refine:** Use the Tolerance slider to catch similar shades and Edge Smoothing to soften the transition.
-4. **Export:** Click "Export Game Sprite" to save your transparent PNG.
+4. **Export:** Click "Export PNG" to save your transparent image.
 
 ## Deployment (GitHub Pages)
 
