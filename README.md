@@ -1,4 +1,4 @@
-# Alpha Amnesia v1.2
+# Alpha Amnesia v2.0
 
 A specialized tool for game developers to quickly clean up sprite assets. This project provides a high-performance, client-side HTML5 Canvas interface for removing backgrounds and smoothing edges directly in the browser.
 
