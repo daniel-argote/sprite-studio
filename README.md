@@ -1,4 +1,4 @@
-# Alpha Amnesia v2.0
+# Alpha Amnesia v2.1
 
 A versatile, client-side image utility for sprite and asset preparation. This tool provides a high-performance HTML5 Canvas interface for background removal, sprite sheet manipulation, and game navigation mask creation, all directly in the browser.
 
@@ -19,7 +19,7 @@ A versatile, client-side image utility for sprite and asset preparation. This to
 ## Live Demo
 
 Access the tool directly via GitHub Pages:  
-**[Launch Alpha Amnesia v2.0](https://daniel-argote.github.io/alpha-amnesia/)**
+**Launch Alpha Amnesia v2.1**
 
 ## Project Structure
 
