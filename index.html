@@ -58,13 +58,16 @@
         <aside class="w-80 border-r border-[var(--border-main)] p-6 bg-[var(--bg-main)] overflow-y-auto space-y-8 transition-colors duration-300">
             
             <section>
-                <label class="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] block mb-3">1. Background Color</label>
+                <label class="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] block mb-3">Background Color</label>
                 <div class="flex items-center gap-3 p-3 bg-[var(--bg-card)] rounded-lg border border-[var(--border-main)]">
                     <input type="color" id="targetColor" value="#ffffff" class="w-10 h-10 rounded bg-transparent cursor-pointer">
                     <div class="flex-1">
                         <div class="text-[var(--text-main)] font-mono text-sm" id="hexDisplay">#FFFFFF</div>
                         <div class="text-[10px] text-[var(--accent)] font-bold">CLICK PREVIEW TO SAMPLE</div>
                     </div>
+                    <button id="resetColorBtn" class="p-2 bg-[var(--bg-card-hover)] hover:bg-[var(--bg-main)] border border-[var(--border-main)] text-[var(--text-muted)] hover:text-[var(--accent)] rounded transition-all" title="Reset Color to White">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    </button>
                 </div>
             </section>
 
@@ -90,7 +93,7 @@
                         <label class="font-semibold text-[var(--text-main)]">Preview Zoom</label>
                         <span id="zoomVal" class="text-[var(--accent)] font-bold">100%</span>
                     </div>
-                    <input type="range" id="zoom" min="50" max="400" value="100" class="w-full cursor-pointer">
+                    <input type="range" id="zoom" min="10" max="400" value="100" class="w-full cursor-pointer">
                 </div>
 
                 <div class="flex items-center justify-between pt-4 border-t border-[var(--border-main)]">
@@ -129,6 +132,47 @@
                     </div>
                 </div>
 
+                <!-- Navigation Painter -->
+                <div class="border-t border-[var(--border-main)] pt-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="font-semibold text-[var(--text-main)] text-sm">Nav Painter</label>
+                        <button id="toggleNavBtn" class="text-xs bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] px-3 py-1 rounded text-[var(--text-muted)] border border-[var(--border-main)] transition-colors">Enable</button>
+                    </div>
+                    <div id="navControls" class="hidden space-y-3">
+                        <div class="flex gap-2">
+                            <button id="brushWalk" class="flex-1 py-1 text-xs font-bold rounded border border-[var(--border-main)] bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-white transition-colors ring-1 ring-[var(--accent)]">WALK</button>
+                            <button id="brushObstacle" class="flex-1 py-1 text-xs font-bold rounded border border-[var(--border-main)] bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-white transition-colors">BLOCK</button>
+                            <button id="brushSpawn" class="flex-1 py-1 text-xs font-bold rounded border border-[var(--border-main)] bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-white transition-colors">SPAWN</button>
+                            <button id="brushEraser" class="flex-1 py-1 text-xs font-bold rounded border border-[var(--border-main)] bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-white transition-colors">ERASE</button>
+                        </div>
+                        <div class="flex gap-2">
+                            <button id="toolPen" class="flex-1 py-1 text-xs font-bold rounded border border-[var(--border-main)] bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-white transition-colors ring-1 ring-[var(--accent)]">PEN</button>
+                            <button id="toolFill" class="flex-1 py-1 text-xs font-bold rounded border border-[var(--border-main)] bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-white transition-colors">FILL</button>
+                            <button id="toolRect" class="flex-1 py-1 text-xs font-bold rounded border border-[var(--border-main)] bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-white transition-colors">RECT</button>
+                            <button id="toolOval" class="flex-1 py-1 text-xs font-bold rounded border border-[var(--border-main)] bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-white transition-colors">OVAL</button>
+                        </div>
+                        <div class="flex gap-2">
+                            <button id="toolMove" class="flex-1 py-1 text-xs font-bold rounded border border-[var(--border-main)] bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-white transition-colors">MOVE</button>
+                            <button id="toolResize" class="flex-1 py-1 text-xs font-bold rounded border border-[var(--border-main)] bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-white transition-colors">RESIZE</button>
+                            <button id="btnDeleteShape" class="flex-1 py-1 text-xs font-bold rounded border border-[var(--border-main)] bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors" title="Delete Selected Shape">DEL</button>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <label class="text-[var(--text-muted)]">Brush Size</label>
+                                <span id="brushSizeVal" class="text-[var(--accent)] font-bold">10</span>
+                            </div>
+                            <input type="range" id="brushSize" min="1" max="50" value="10" class="w-full cursor-pointer">
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <label class="text-xs text-[var(--text-muted)]">Show Mask</label>
+                            <input type="checkbox" id="showMaskToggle" class="w-4 h-4 cursor-pointer" checked>
+                        </div>
+                        <div class="pt-2 border-t border-[var(--border-main)]">
+                            <button id="clearMaskBtn" class="w-full py-2 bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] text-[var(--text-muted)] border border-[var(--border-main)] hover:text-[var(--accent)] rounded-lg text-xs font-bold transition-all">CLEAR MASK</button>
+                        </div>
+                    </div>
+                </div>
+
             </section>
 
             <section class="pt-6 border-t border-[var(--border-main)] space-y-3">
@@ -148,6 +192,10 @@
                 <button id="downloadSvgBtn" disabled class="w-full py-3 bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] disabled:bg-[var(--bg-card)] disabled:text-[var(--text-muted)] text-[var(--text-main)] hover:text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm border border-[var(--border-main)] hover:border-[var(--text-muted)]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M9 15l2 2 4-4"></path></svg>
                     Export as SVG
+                </button>
+                <button id="downloadNavBtn" disabled class="w-full py-3 bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] disabled:bg-[var(--bg-card)] disabled:text-[var(--text-muted)] text-[var(--text-main)] hover:text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm border border-[var(--border-main)] hover:border-[var(--text-muted)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    Export Nav Mask
                 </button>
 
                 <!-- History Tool -->
@@ -182,8 +230,15 @@
             </div>
 
             <div id="canvas-wrapper" class="checkerboard shadow-2xl rounded-lg hidden overflow-auto max-w-[90%] max-h-[90%] border border-[var(--border-main)]">
-                <canvas id="mainCanvas"></canvas>
+                <div id="canvas-stack" class="relative">
+                    <canvas id="mainCanvas" class="block"></canvas>
+                    <canvas id="navCanvas" class="absolute top-0 left-0 pointer-events-none"></canvas>
+                </div>
             </div>
+        </div>
+
+        <div id="brush-cursor" class="hidden absolute rounded-full border-2 border-white pointer-events-none mix-blend-difference z-50">
+            <!-- Custom brush cursor -->
         </div>
     </main>
 
@@ -194,6 +249,8 @@
         const fileInput = document.getElementById('fileInput');
         const canvas = document.getElementById('mainCanvas');
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const navCanvas = document.getElementById('navCanvas');
+        const navCtx = navCanvas.getContext('2d');
         
         const toleranceInput = document.getElementById('tolerance');
         const toleranceVal = document.getElementById('toleranceVal');
@@ -203,8 +260,10 @@
         const zoomVal = document.getElementById('zoomVal');
         const targetColorInput = document.getElementById('targetColor');
         const hexDisplay = document.getElementById('hexDisplay');
+        const resetColorBtn = document.getElementById('resetColorBtn');
         const downloadBtn = document.getElementById('downloadBtn');
         const downloadSvgBtn = document.getElementById('downloadSvgBtn');
+        const downloadNavBtn = document.getElementById('downloadNavBtn');
         const resetBtn = document.getElementById('resetBtn');
         const askFileName = document.getElementById('askFileName');
         const statusText = document.getElementById('status-text');
@@ -219,10 +278,51 @@
         const undoBtn = document.getElementById('undoBtn');
         const redoBtn = document.getElementById('redoBtn');
         const historyList = document.getElementById('historyList');
+        
+        // Nav Painter Elements
+        const toggleNavBtn = document.getElementById('toggleNavBtn');
+        const navControls = document.getElementById('navControls');
+        const brushWalk = document.getElementById('brushWalk');
+        const brushObstacle = document.getElementById('brushObstacle');
+        const brushSpawn = document.getElementById('brushSpawn');
+        const brushEraser = document.getElementById('brushEraser');
+        const toolPen = document.getElementById('toolPen');
+        const toolFill = document.getElementById('toolFill');
+        const toolRect = document.getElementById('toolRect');
+        const toolOval = document.getElementById('toolOval');
+        const toolMove = document.getElementById('toolMove');
+        const toolResize = document.getElementById('toolResize');
+        const btnDeleteShape = document.getElementById('btnDeleteShape');
+        const brushSizeInput = document.getElementById('brushSize');
+        const brushSizeVal = document.getElementById('brushSizeVal');
+        const showMaskToggle = document.getElementById('showMaskToggle');
+        const clearMaskBtn = document.getElementById('clearMaskBtn');
+        const brushCursor = document.getElementById('brush-cursor');
 
         let originalImage = null;
         let historyStack = [];
         let historyIndex = -1;
+        
+        // Nav Painter State
+        const navBuffer = document.createElement('canvas');
+        const navBufferCtx = navBuffer.getContext('2d');
+        const navRaster = document.createElement('canvas');
+        const navRasterCtx = navRaster.getContext('2d');
+        let isNavPainting = false;
+        let currentBrush = 'walkable'; 
+        let currentNavTool = 'pen'; // pen, fill, rect, oval, move, resize
+        let isDrawingNav = false;
+        let lastNavX = 0;
+        let lastNavY = 0;
+        let navDragEndX = 0;
+        let navDragEndY = 0;
+        let navShapes = [];
+        let selectedShapeId = null;
+        let isDraggingShape = false;
+        let dragShapeStart = { x: 0, y: 0 };
+        let isResizingShape = false;
+        let resizeHandle = null;
+        let resizeStartRect = null;
 
         // --- Interaction ---
         dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('bg-neutral-900/50'); });
@@ -243,6 +343,34 @@
             }
         });
 
+        window.addEventListener('keydown', (e) => {
+            // Check for Ctrl or Cmd key, and if an input field is not focused
+            if ((e.ctrlKey || e.metaKey) && document.activeElement.tagName !== 'INPUT') {
+                if (e.key.toLowerCase() === 'z') {
+                    e.preventDefault(); // Prevent browser's default undo/redo action
+                    if (e.shiftKey) {
+                        // Redo (Ctrl+Shift+Z)
+                        if (!redoBtn.disabled) redoBtn.click();
+                    } else {
+                        // Undo (Ctrl+Z)
+                        if (!undoBtn.disabled) undoBtn.click();
+                    }
+                } else if (e.key.toLowerCase() === 'y') {
+                    // Redo (Ctrl+Y)
+                    e.preventDefault(); // Prevent browser's default redo action
+                    if (!redoBtn.disabled) redoBtn.click();
+                }
+            }
+            
+            // Delete Shape
+            if ((e.key === 'Delete' || e.key === 'Backspace') && isNavPainting && selectedShapeId) {
+                if (document.activeElement.tagName !== 'INPUT') {
+                    e.preventDefault();
+                    deleteSelectedShape();
+                }
+            }
+        });
+
         function handleFile(file) {
             if (!file || !file.type.startsWith('image/')) return;
             const reader = new FileReader();
@@ -255,11 +383,32 @@
                     imageDimensions.classList.remove('hidden');
                     downloadBtn.disabled = false;
                     downloadSvgBtn.disabled = false;
+                    downloadNavBtn.disabled = false;
                     potBtn.disabled = false;
                     trimBtn.disabled = false;
                     statusText.innerText = `Sprite: ${file.name || "Pasted Image"}`;
 
-                    historyStack = [{ image: img, action: 'Initial Load' }];
+                    // Auto-zoom to fit
+                    const availableW = window.innerWidth - 360; // Sidebar (320) + Padding
+                    const availableH = window.innerHeight - 150; // Header + Padding
+                    const scale = Math.min(availableW / img.width, availableH / img.height);
+                    let zoomPercent = Math.floor(scale * 100);
+                    if (zoomPercent > 100) zoomPercent = 100; 
+                    if (zoomPercent < 10) zoomPercent = 10;
+                    zoomInput.value = zoomPercent;
+
+                    // Init Nav Buffer
+                    navBuffer.width = img.width;
+                    navBuffer.height = img.height;
+                    navBufferCtx.clearRect(0, 0, navBuffer.width, navBuffer.height);
+                    
+                    navRaster.width = img.width;
+                    navRaster.height = img.height;
+                    navRasterCtx.clearRect(0, 0, navRaster.width, navRaster.height);
+
+                    navShapes = [];
+
+                    historyStack = [{ image: img, mask: { bitmap: cloneCanvas(navRaster), shapes: [] }, action: 'Initial Load' }];
                     historyIndex = 0;
                     updateHistoryUI();
 
@@ -366,6 +515,7 @@
 
         pixelArtToggle.addEventListener('change', () => {
             canvas.style.imageRendering = pixelArtToggle.checked ? 'pixelated' : 'auto';
+            navCanvas.style.imageRendering = pixelArtToggle.checked ? 'pixelated' : 'auto';
         });
 
         gridSizeSelect.addEventListener('change', () => {
@@ -398,10 +548,36 @@
             const offsetY = Math.floor((newH - h) / 2);
             
             tCtx.drawImage(originalImage, offsetX, offsetY);
+
+            // Pad Nav Buffer
+            const tempNav = document.createElement('canvas');
+            tempNav.width = newW;
+            tempNav.height = newH;
+            const tnCtx = tempNav.getContext('2d');
+            tnCtx.drawImage(navBuffer, offsetX, offsetY);
+            navBuffer.width = newW;
+            navBuffer.height = newH;
+            navBufferCtx.clearRect(0, 0, newW, newH);
+            navBufferCtx.drawImage(tempNav, 0, 0);
+
+            // Pad Nav Raster
+            const tempRaster = document.createElement('canvas');
+            tempRaster.width = newW;
+            tempRaster.height = newH;
+            tempRaster.getContext('2d').drawImage(navRaster, offsetX, offsetY);
+            navRaster.width = newW;
+            navRaster.height = newH;
+            navRasterCtx.clearRect(0, 0, newW, newH);
+            navRasterCtx.drawImage(tempRaster, 0, 0);
             
             const newImg = new Image();
             newImg.onload = () => {
                 originalImage = newImg;
+                // Shift Shapes
+                navShapes.forEach(s => {
+                    s.x += offsetX;
+                    s.y += offsetY;
+                });
                 addToHistory(newImg, `Pad to PoT (${newW}x${newH})`);
                 processImage();
             };
@@ -463,6 +639,33 @@
             const newImg = new Image();
             newImg.onload = () => {
                 originalImage = newImg;
+
+                // Trim Nav Buffer
+                const tempNav = document.createElement('canvas');
+                tempNav.width = cropW;
+                tempNav.height = cropH;
+                tempNav.getContext('2d').drawImage(navBuffer, minX, minY, cropW, cropH, 0, 0, cropW, cropH);
+                navBuffer.width = cropW;
+                navBuffer.height = cropH;
+                navBufferCtx.clearRect(0, 0, cropW, cropH);
+                navBufferCtx.drawImage(tempNav, 0, 0);
+
+                // Trim Nav Raster
+                const tempRaster = document.createElement('canvas');
+                tempRaster.width = cropW;
+                tempRaster.height = cropH;
+                tempRaster.getContext('2d').drawImage(navRaster, minX, minY, cropW, cropH, 0, 0, cropW, cropH);
+                navRaster.width = cropW;
+                navRaster.height = cropH;
+                navRasterCtx.clearRect(0, 0, cropW, cropH);
+                navRasterCtx.drawImage(tempRaster, 0, 0);
+
+                // Shift Shapes
+                navShapes.forEach(s => {
+                    s.x -= minX;
+                    s.y -= minY;
+                });
+
                 addToHistory(newImg, `Trim Transparent (${cropW}x${cropH})`);
                 processImage();
             };
@@ -479,6 +682,7 @@
             if (historyIndex > 0) {
                 historyIndex--;
                 originalImage = historyStack[historyIndex].image;
+                restoreMaskAndShapes(historyStack[historyIndex].mask);
                 processImage();
                 updateHistoryUI();
             }
@@ -488,6 +692,7 @@
             if (historyIndex < historyStack.length - 1) {
                 historyIndex++;
                 originalImage = historyStack[historyIndex].image;
+                restoreMaskAndShapes(historyStack[historyIndex].mask);
                 processImage();
                 updateHistoryUI();
             }
@@ -497,9 +702,37 @@
             if (historyIndex < historyStack.length - 1) {
                 historyStack = historyStack.slice(0, historyIndex + 1);
             }
-            historyStack.push({ image: image, action: action });
+            const maskState = {
+                bitmap: cloneCanvas(navRaster),
+                shapes: JSON.parse(JSON.stringify(navShapes))
+            };
+            historyStack.push({ image: image, mask: maskState, action: action });
             historyIndex++;
             updateHistoryUI();
+        }
+
+        function cloneCanvas(source) {
+            const c = document.createElement('canvas');
+            c.width = source.width;
+            c.height = source.height;
+            c.getContext('2d').drawImage(source, 0, 0);
+            return c;
+        }
+
+        function restoreMaskAndShapes(maskState) {
+            navRaster.width = maskState.bitmap.width;
+            navRaster.height = maskState.bitmap.height;
+            navRasterCtx.clearRect(0, 0, navRaster.width, navRaster.height);
+            navRasterCtx.drawImage(maskState.bitmap, 0, 0);
+            
+            // Sync buffer size
+            navBuffer.width = navRaster.width;
+            navBuffer.height = navRaster.height;
+
+            navShapes = JSON.parse(JSON.stringify(maskState.shapes || []));
+            selectedShapeId = null;
+
+            redrawFullNavMask();
         }
 
         function updateHistoryUI() {
@@ -528,6 +761,10 @@
                 toggleCropBtn.innerText = "Disable";
                 toggleCropBtn.classList.replace('text-[var(--accent)]', 'text-[var(--text-muted)]');
                 cropControls.classList.remove('hidden');
+                
+                // Disable Nav Painter if active
+                if (isNavPainting) toggleNavBtn.click();
+
                 if (originalImage) {
                     // Initialize to full image
                     cropRect = { x: 0, y: 0, w: canvas.width, h: canvas.height };
@@ -567,6 +804,7 @@
 
         canvas.addEventListener('mousedown', (e) => {
             if (!originalImage) return;
+            if (isNavPainting) return; // Prevent color picking while painting
             const rect = canvas.getBoundingClientRect();
             const x = (e.clientX - rect.left) * (canvas.width / rect.width);
             const y = (e.clientY - rect.top) * (canvas.height / rect.height);
@@ -590,6 +828,97 @@
         });
 
         window.addEventListener('mousemove', (e) => {
+            // Handle custom brush cursor when nav painting is active
+            if (isNavPainting) {
+                const rect = canvas.getBoundingClientRect();
+                const isMouseOverCanvas = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+
+                if (isMouseOverCanvas && currentNavTool === 'pen') {
+                    brushCursor.classList.remove('hidden');
+                    const zoom = parseInt(zoomInput.value) / 100;
+                    const brushSize = parseInt(brushSizeInput.value);
+                    const cursorSize = brushSize * zoom;
+                    brushCursor.style.width = `${cursorSize}px`;
+                    brushCursor.style.height = `${cursorSize}px`;
+                    brushCursor.style.left = `${e.clientX - cursorSize / 2}px`;
+                    brushCursor.style.top = `${e.clientY - cursorSize / 2}px`;
+                } else {
+                    brushCursor.classList.add('hidden');
+                }
+                
+                // Cursor update for Resize tool
+                if (currentNavTool === 'resize' && selectedShapeId && !isResizingShape) {
+                    const pos = getNavPos(e);
+                    const shape = navShapes.find(s => s.id === selectedShapeId);
+                    if (shape) {
+                        const handle = getHandle(pos.x, pos.y, shape, zoom);
+                        if (handle === 'nw' || handle === 'se') navCanvas.style.cursor = 'nwse-resize';
+                        else if (handle === 'ne' || handle === 'sw') navCanvas.style.cursor = 'nesw-resize';
+                        else if (handle === 'n' || handle === 's') navCanvas.style.cursor = 'ns-resize';
+                        else if (handle === 'e' || handle === 'w') navCanvas.style.cursor = 'ew-resize';
+                        else navCanvas.style.cursor = 'default';
+                    }
+                }
+
+                // Drawing logic
+                if (isDrawingNav) {
+                    const pos = getNavPos(e);
+                    if (currentNavTool === 'pen') {
+                        paintNavStroke(pos.x, pos.y, true);
+                        lastNavX = pos.x;
+                        lastNavY = pos.y;
+                    } else if (currentNavTool === 'rect' || currentNavTool === 'oval') {
+                        navDragEndX = pos.x;
+                        navDragEndY = pos.y;
+                        // Preview Shape
+                        navCtx.clearRect(0, 0, navCanvas.width, navCanvas.height);
+                        if (showMaskToggle.checked) navCtx.drawImage(navBuffer, 0, 0);
+                        drawShape(navCtx, lastNavX, lastNavY, navDragEndX, navDragEndY, currentNavTool);
+                    }
+                } else if (isResizingShape && selectedShapeId) {
+                    const pos = getNavPos(e);
+                    const dx = pos.x - dragShapeStart.x;
+                    const dy = pos.y - dragShapeStart.y;
+                    
+                    const shape = navShapes.find(s => s.id === selectedShapeId);
+                    if (shape) {
+                        let newRect = { ...resizeStartRect };
+                        
+                        if (resizeHandle.includes('w')) { newRect.x += dx; newRect.w -= dx; }
+                        if (resizeHandle.includes('e')) { newRect.w += dx; }
+                        if (resizeHandle.includes('n')) { newRect.y += dy; newRect.h -= dy; }
+                        if (resizeHandle.includes('s')) { newRect.h += dy; }
+                        
+                        // Prevent inversion
+                        if (newRect.w < 1) newRect.w = 1;
+                        if (newRect.h < 1) newRect.h = 1;
+                        
+                        shape.x = newRect.x;
+                        shape.y = newRect.y;
+                        shape.w = newRect.w;
+                        shape.h = newRect.h;
+                        
+                        redrawFullNavMask();
+                        processImage();
+                    }
+                } else if (isDraggingShape && selectedShapeId) {
+                    const pos = getNavPos(e);
+                    const dx = pos.x - dragShapeStart.x;
+                    const dy = pos.y - dragShapeStart.y;
+                    
+                    const shape = navShapes.find(s => s.id === selectedShapeId);
+                    if (shape) {
+                        shape.x += dx;
+                        shape.y += dy;
+                        redrawFullNavMask();
+                        processImage();
+                    }
+                    dragShapeStart = pos;
+                }
+                // Stop further mousemove logic (like crop cursors) from running
+                return;
+            }
+
             if (!originalImage) return;
             const rect = canvas.getBoundingClientRect();
             const x = (e.clientX - rect.left) * (canvas.width / rect.width);
@@ -634,12 +963,42 @@
         });
 
         window.addEventListener('mouseup', () => {
+            if (isDrawingNav) {
+                isDrawingNav = false;
+                if (currentNavTool === 'pen') {
+                    addToHistory(originalImage, "Paint Nav Mask");
+                } else if (currentNavTool === 'rect' || currentNavTool === 'oval') {
+                    const newShape = {
+                        id: Date.now() + Math.random(),
+                        type: currentNavTool,
+                        x: Math.min(lastNavX, navDragEndX),
+                        y: Math.min(lastNavY, navDragEndY),
+                        w: Math.abs(lastNavX - navDragEndX),
+                        h: Math.abs(lastNavY - navDragEndY),
+                        brush: currentBrush
+                    };
+                    if (newShape.w > 1 && newShape.h > 1) {
+                        navShapes.push(newShape);
+                    }
+                    redrawFullNavMask();
+                    addToHistory(originalImage, "Add Shape");
+                }
+            } else if (isResizingShape) {
+                isResizingShape = false;
+                addToHistory(originalImage, "Resize Shape");
+                processImage();
+            } else if (isDraggingShape) {
+                isDraggingShape = false;
+                addToHistory(originalImage, "Move Shape");
+                processImage(); // To update selection box display
+            }
+
             dragHandle = null;
             if (isCropping && cropRect) applyCropBtn.disabled = false;
         });
 
         applyCropBtn.addEventListener('click', () => {
-            if (!cropRect || cropRect.w === 0 || cropRect.h === 0) return;
+            if (!cropRect || cropRect.w <= 0 || cropRect.h <= 0) return;
 
             const tempCanvas = document.createElement('canvas');
             tempCanvas.width = cropRect.w;
@@ -650,13 +1009,319 @@
             const newImg = new Image();
             newImg.onload = () => {
                 originalImage = newImg;
+
+                // Crop Nav Buffer
+                const tempNav = document.createElement('canvas');
+                tempNav.width = cropRect.w;
+                tempNav.height = cropRect.h;
+                tempNav.getContext('2d').drawImage(navBuffer, cropRect.x, cropRect.y, cropRect.w, cropRect.h, 0, 0, cropRect.w, cropRect.h);
+                navBuffer.width = cropRect.w;
+                navBuffer.height = cropRect.h;
+                navBufferCtx.clearRect(0, 0, cropRect.w, cropRect.h);
+                navBufferCtx.drawImage(tempNav, 0, 0);
+
+                // Crop Nav Raster
+                const tempRaster = document.createElement('canvas');
+                tempRaster.width = cropRect.w;
+                tempRaster.height = cropRect.h;
+                tempRaster.getContext('2d').drawImage(navRaster, cropRect.x, cropRect.y, cropRect.w, cropRect.h, 0, 0, cropRect.w, cropRect.h);
+                navRaster.width = cropRect.w;
+                navRaster.height = cropRect.h;
+                navRasterCtx.clearRect(0, 0, cropRect.w, cropRect.h);
+                navRasterCtx.drawImage(tempRaster, 0, 0);
+
+                // Shift Shapes
+                navShapes.forEach(s => {
+                    s.x -= cropRect.x;
+                    s.y -= cropRect.y;
+                });
+
                 // Reset Crop UI
                 toggleCropBtn.click(); // Toggle off
                 applyCropBtn.disabled = true;
+                addToHistory(newImg, `Crop (${Math.round(cropRect.w)}x${Math.round(cropRect.h)})`);
                 processImage();
             };
             newImg.src = tempCanvas.toDataURL();
         });
+
+        // --- Nav Painter Logic ---
+        toggleNavBtn.addEventListener('click', () => {
+            isNavPainting = !isNavPainting;
+            if (isNavPainting) {
+                toggleNavBtn.innerText = "Disable";
+                toggleNavBtn.classList.replace('text-[var(--text-muted)]', 'text-[var(--accent)]');
+                navControls.classList.remove('hidden');
+                navCanvas.classList.remove('pointer-events-none');
+                updateNavCursor();
+                canvasWrapper.classList.add('ring-2', 'ring-[var(--accent)]', 'ring-offset-2', 'ring-offset-[var(--bg-main)]');
+                
+                // Disable Crop if active
+                if (isCropping) toggleCropBtn.click();
+            } else {
+                toggleNavBtn.innerText = "Enable";
+                toggleNavBtn.classList.replace('text-[var(--accent)]', 'text-[var(--text-muted)]');
+                navControls.classList.add('hidden');
+                navCanvas.classList.add('pointer-events-none');
+                navCanvas.style.cursor = ''; // Revert to default, hide custom
+                brushCursor.classList.add('hidden');
+                canvasWrapper.classList.remove('ring-2', 'ring-[var(--accent)]', 'ring-offset-2', 'ring-offset-[var(--bg-main)]');
+            }
+        });
+
+        function setBrush(type) {
+            currentBrush = type;
+            [brushWalk, brushObstacle, brushSpawn, brushEraser].forEach(b => b.classList.remove('ring-1', 'ring-[var(--accent)]'));
+            if (type === 'walkable') brushWalk.classList.add('ring-1', 'ring-[var(--accent)]');
+            if (type === 'obstacle') brushObstacle.classList.add('ring-1', 'ring-[var(--accent)]');
+            if (type === 'spawn') brushSpawn.classList.add('ring-1', 'ring-[var(--accent)]');
+            if (type === 'eraser') brushEraser.classList.add('ring-1', 'ring-[var(--accent)]');
+        }
+
+        brushWalk.addEventListener('click', () => setBrush('walkable'));
+        brushObstacle.addEventListener('click', () => setBrush('obstacle'));
+        brushSpawn.addEventListener('click', () => setBrush('spawn'));
+        brushEraser.addEventListener('click', () => setBrush('eraser'));
+        
+        function setNavTool(tool) {
+            currentNavTool = tool;
+            [toolPen, toolFill, toolRect, toolOval, toolMove, toolResize].forEach(b => b.classList.remove('ring-1', 'ring-[var(--accent)]'));
+            if (tool === 'pen') toolPen.classList.add('ring-1', 'ring-[var(--accent)]');
+            if (tool === 'fill') toolFill.classList.add('ring-1', 'ring-[var(--accent)]');
+            if (tool === 'rect') toolRect.classList.add('ring-1', 'ring-[var(--accent)]');
+            if (tool === 'oval') toolOval.classList.add('ring-1', 'ring-[var(--accent)]');
+            if (tool === 'move') toolMove.classList.add('ring-1', 'ring-[var(--accent)]');
+            if (tool === 'resize') toolResize.classList.add('ring-1', 'ring-[var(--accent)]');
+            selectedShapeId = null;
+            updateNavCursor();
+            processImage();
+        }
+
+        toolPen.addEventListener('click', () => setNavTool('pen'));
+        toolFill.addEventListener('click', () => setNavTool('fill'));
+        toolRect.addEventListener('click', () => setNavTool('rect'));
+        toolOval.addEventListener('click', () => setNavTool('oval'));
+        toolMove.addEventListener('click', () => setNavTool('move'));
+        toolResize.addEventListener('click', () => setNavTool('resize'));
+        btnDeleteShape.addEventListener('click', deleteSelectedShape);
+
+        function updateNavCursor() {
+            if (currentNavTool === 'pen') navCanvas.style.cursor = 'none';
+            else if (currentNavTool === 'move') navCanvas.style.cursor = 'move';
+            else if (currentNavTool === 'resize') navCanvas.style.cursor = 'default';
+            else navCanvas.style.cursor = 'crosshair';
+
+            if (currentNavTool !== 'pen') brushCursor.classList.add('hidden');
+        }
+
+        brushSizeInput.addEventListener('input', () => {
+            brushSizeVal.innerText = brushSizeInput.value;
+        });
+
+        clearMaskBtn.addEventListener('click', () => {
+            if (!originalImage) return;
+            navRasterCtx.clearRect(0, 0, navRaster.width, navRaster.height); // Clear Raster
+            navShapes = []; // Clear shapes
+            selectedShapeId = null;
+            addToHistory(originalImage, "Clear Nav Mask");
+            processImage();
+        });
+
+        function deleteSelectedShape() {
+            if (!selectedShapeId) return;
+            navShapes = navShapes.filter(s => s.id !== selectedShapeId);
+            selectedShapeId = null;
+            redrawFullNavMask();
+            addToHistory(originalImage, "Delete Shape");
+            processImage();
+        }
+
+        showMaskToggle.addEventListener('change', processImage);
+
+        navCanvas.addEventListener('mousedown', (e) => {
+            if (!isNavPainting) return;
+            const pos = getNavPos(e);
+            const zoom = parseInt(zoomInput.value) / 100;
+            
+            if (currentNavTool === 'move' || currentNavTool === 'resize') {
+                // Check handles first if resizing
+                if (currentNavTool === 'resize' && selectedShapeId) {
+                    const shape = navShapes.find(s => s.id === selectedShapeId);
+                    if (shape) {
+                        const handle = getHandle(pos.x, pos.y, shape, zoom);
+                        if (handle && handle !== 'move') {
+                            isResizingShape = true;
+                            resizeHandle = handle;
+                            resizeStartRect = { ...shape };
+                            dragShapeStart = pos;
+                            return;
+                        }
+                    }
+                }
+
+                selectedShapeId = null; // Deselect first
+                const clickedShape = navShapes.slice().reverse().find(shape => 
+                    pos.x >= shape.x && pos.x <= shape.x + shape.w &&
+                    pos.y >= shape.y && pos.y <= shape.y + shape.h
+                );
+
+                if (clickedShape) {
+                    selectedShapeId = clickedShape.id;
+                    if (currentNavTool === 'move') {
+                        isDraggingShape = true;
+                        dragShapeStart = pos;
+                    }
+                }
+                processImage(); // Redraw to show/hide selection
+            } else if (currentNavTool === 'fill') {
+                performFloodFill(Math.floor(pos.x), Math.floor(pos.y));
+            } else {
+                isDrawingNav = true;
+                lastNavX = pos.x;
+                lastNavY = pos.y;
+                navDragEndX = pos.x;
+                navDragEndY = pos.y;
+                
+                if (currentNavTool === 'pen') {
+                    paintNavStroke(pos.x, pos.y, false);
+                }
+            }
+        });
+
+        function getNavPos(e) {
+            const rect = navCanvas.getBoundingClientRect();
+            const x = (e.clientX - rect.left) * (navCanvas.width / rect.width);
+            const y = (e.clientY - rect.top) * (navCanvas.height / rect.height);
+            return { x, y };
+        }
+
+        function paintNavStroke(x, y, isDrag) {
+            navRasterCtx.lineCap = 'round';
+            navRasterCtx.lineJoin = 'round';
+            navRasterCtx.lineWidth = parseInt(brushSizeInput.value);
+            
+            if (currentBrush === 'eraser') {
+                navRasterCtx.globalCompositeOperation = 'destination-out';
+                navRasterCtx.strokeStyle = 'rgba(0,0,0,1)';
+            } else {
+                navRasterCtx.globalCompositeOperation = 'source-over';
+                if (currentBrush === 'walkable') navRasterCtx.strokeStyle = '#FF0000';
+                if (currentBrush === 'obstacle') navRasterCtx.strokeStyle = '#0000FF';
+                if (currentBrush === 'spawn') navRasterCtx.strokeStyle = '#00FF00';
+            }
+
+            navRasterCtx.beginPath();
+            if (isDrag) {
+                navRasterCtx.moveTo(lastNavX, lastNavY);
+            } else {
+                navRasterCtx.moveTo(x, y);
+            }
+            navRasterCtx.lineTo(x, y);
+            navRasterCtx.stroke();
+            
+            redrawFullNavMask();
+        }
+
+        function drawShape(ctx, x1, y1, x2, y2, type, brush) {
+            const effectiveBrush = brush || currentBrush;
+            ctx.fillStyle = getBrushColor(effectiveBrush);
+            if (effectiveBrush === 'eraser') {
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.fillStyle = 'black';
+            } else {
+                ctx.globalCompositeOperation = 'source-over';
+            }
+
+            const w = x2 - x1;
+            const h = y2 - y1;
+
+            ctx.beginPath();
+            if (type === 'rect') {
+                ctx.fillRect(x1, y1, w, h);
+            } else if (type === 'oval') {
+                ctx.ellipse(x1 + w/2, y1 + h/2, Math.abs(w/2), Math.abs(h/2), 0, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+        }
+
+        function getBrushColor(brush) {
+            brush = brush || currentBrush;
+            if (currentBrush === 'walkable') return '#FF0000';
+            if (currentBrush === 'obstacle') return '#0000FF';
+            if (currentBrush === 'spawn') return '#00FF00';
+            return '#000000';
+        }
+
+        function performFloodFill(startX, startY) {
+            const w = navRaster.width;
+            const h = navRaster.height;
+            const imageData = navRasterCtx.getImageData(0, 0, w, h);
+            const data = imageData.data;
+            
+            const startPos = (startY * w + startX) * 4;
+            const targetR = data[startPos];
+            const targetG = data[startPos + 1];
+            const targetB = data[startPos + 2];
+            const targetA = data[startPos + 3];
+
+            let fillR, fillG, fillB, fillA;
+            if (currentBrush === 'eraser') {
+                fillR = 0; fillG = 0; fillB = 0; fillA = 0;
+            } else if (currentBrush === 'walkable') {
+                fillR = 255; fillG = 0; fillB = 0; fillA = 255;
+            } else if (currentBrush === 'obstacle') {
+                fillR = 0; fillG = 0; fillB = 255; fillA = 255;
+            } else if (currentBrush === 'spawn') {
+                fillR = 0; fillG = 255; fillB = 0; fillA = 255;
+            }
+
+            if (targetR === fillR && targetG === fillG && targetB === fillB && targetA === fillA) return;
+
+            const stack = [[startX, startY]];
+            
+            while (stack.length) {
+                const [x, y] = stack.pop();
+                const pos = (y * w + x) * 4;
+                
+                if (x < 0 || x >= w || y < 0 || y >= h) continue;
+                
+                const r = data[pos];
+                const g = data[pos + 1];
+                const b = data[pos + 2];
+                const a = data[pos + 3];
+                
+                if (r === targetR && g === targetG && b === targetB && a === targetA) {
+                    data[pos] = fillR;
+                    data[pos + 1] = fillG;
+                    data[pos + 2] = fillB;
+                    data[pos + 3] = fillA;
+                    
+                    stack.push([x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]);
+                }
+            }
+            
+            navRasterCtx.putImageData(imageData, 0, 0);
+            addToHistory(originalImage, "Flood Fill Mask");
+            redrawFullNavMask();
+        }
+
+        function redrawFullNavMask() {
+            // Clear Buffer
+            navBufferCtx.clearRect(0, 0, navBuffer.width, navBuffer.height);
+            
+            // Draw Raster Layer
+            navBufferCtx.drawImage(navRaster, 0, 0);
+
+            for (const shape of navShapes) {
+                drawShape(navBufferCtx, shape.x, shape.y, shape.x + shape.w, shape.y + shape.h, shape.type, shape.brush);
+            }
+            
+            // Update Display
+            navCtx.clearRect(0, 0, navCanvas.width, navCanvas.height);
+            if (showMaskToggle.checked) {
+                navCtx.drawImage(navBuffer, 0, 0);
+            }
+        }
 
         // --- Image Processing ---
         function processImage() {
@@ -671,6 +1336,11 @@
             canvas.style.width = (w * zoom) + "px";
             canvas.style.height = (h * zoom) + "px";
             zoomVal.innerText = zoomInput.value + "%";
+            
+            navCanvas.width = w;
+            navCanvas.height = h;
+            navCanvas.style.width = (w * zoom) + "px";
+            navCanvas.style.height = (h * zoom) + "px";
 
             ctx.drawImage(originalImage, 0, 0);
 
@@ -704,6 +1374,42 @@
                 }
             }
             ctx.putImageData(imgData, 0, 0);
+
+            // Draw Nav Mask
+            navCtx.clearRect(0, 0, w, h);
+            if (showMaskToggle.checked) {
+                // Draw the buffer which contains bitmap drawings (pen/fill) and vector shapes
+                navCtx.drawImage(navBuffer, 0, 0);
+            }
+
+            // Draw selection outline for Move tool
+            if (isNavPainting && (currentNavTool === 'move' || currentNavTool === 'resize') && selectedShapeId) {
+                const shape = navShapes.find(s => s.id === selectedShapeId);
+                if (shape) {
+                    const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+                    navCtx.strokeStyle = accentColor;
+                    navCtx.lineWidth = 2 / zoom;
+                    navCtx.strokeRect(shape.x, shape.y, shape.w, shape.h);
+                    
+                    if (currentNavTool === 'resize') {
+                        // Draw Handles
+                        const handleSize = 8 / zoom;
+                        navCtx.fillStyle = accentColor;
+                        const drawHandle = (hx, hy) => navCtx.fillRect(hx - handleSize/2, hy - handleSize/2, handleSize, handleSize);
+
+                        // Corners
+                        drawHandle(shape.x, shape.y);
+                        drawHandle(shape.x + shape.w, shape.y);
+                        drawHandle(shape.x, shape.y + shape.h);
+                        drawHandle(shape.x + shape.w, shape.y + shape.h);
+                        // Edges
+                        drawHandle(shape.x + shape.w/2, shape.y);
+                        drawHandle(shape.x + shape.w/2, shape.y + shape.h);
+                        drawHandle(shape.x, shape.y + shape.h/2);
+                        drawHandle(shape.x + shape.w, shape.y + shape.h/2);
+                    }
+                }
+            }
 
             // Draw Grid Overlay
             const gridSize = parseInt(gridSizeSelect.value);
@@ -765,6 +1471,12 @@
 
         [toleranceInput, smoothnessInput, zoomInput, targetColorInput].forEach(el => {
             el.addEventListener('input', processImage);
+        });
+
+        resetColorBtn.addEventListener('click', () => {
+            targetColorInput.value = '#ffffff';
+            hexDisplay.innerText = '#FFFFFF';
+            processImage();
         });
 
         downloadBtn.addEventListener('click', () => {
@@ -839,6 +1551,21 @@
             URL.revokeObjectURL(url);
         });
 
+        downloadNavBtn.addEventListener('click', () => {
+            let fileName = 'nav_mask.png';
+            if (askFileName.checked) {
+                const input = prompt('Enter filename for mask:', 'nav_mask');
+                if (input === null) return;
+                fileName = (input.trim() || 'nav_mask');
+                if (!fileName.toLowerCase().endsWith('.png')) fileName += '.png';
+            }
+
+            const link = document.createElement('a');
+            link.download = fileName;
+            link.href = navBuffer.toDataURL('image/png');
+            link.click();
+        });
+
         resetBtn.addEventListener('click', () => {
             originalImage = null;
             dropZone.classList.remove('hidden');
@@ -846,11 +1573,21 @@
             imageDimensions.classList.add('hidden');
             downloadBtn.disabled = true;
             downloadSvgBtn.disabled = true;
+            downloadNavBtn.disabled = true;
             potBtn.disabled = true;
             trimBtn.disabled = true;
 
             historyStack = [];
             historyIndex = -1;
+            
+            // Reset Nav
+            navBuffer.width = 0;
+            navBuffer.height = 0;
+            navRaster.width = 0;
+            navRaster.height = 0;
+            navShapes = [];
+            if (isNavPainting) toggleNavBtn.click();
+
             updateHistoryUI();
             // Reset status text based on current theme
             applyTheme(currentThemeIndex);
